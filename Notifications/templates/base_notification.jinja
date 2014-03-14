@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<head>
+<style>
+body
+{
+    font-family:Verdana, sans-serif;
+    font-size:8pt;
+    width:600px;
+}
+
+th
+{
+    font-family:Verdana, sans-serif;
+    font-size:8pt;
+    text-align:left;
+    width=180px;
+}
+
+th.even { background-color:#D9D9D9; }
+th.odd  { background-color:#F2F2F2; }
+
+
+
+td
+{
+    font-family:Verdana, sans-serif;
+    font-size:8pt;
+    text-align:left;
+}
+
+td.even { background-color:#F2F2F2; }
+td.odd  { background-color:#FFFFFF; }
+
+table
+{
+    text-align:left;
+    width:600px
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.error
+{
+    color:red;
+}
+
+.good
+{
+    color:green;
+}
+
+
+.logo
+ {
+    float:left;
+    margin:10px 10px 10px;
+    vertical-align:middle
+ }
+
+.CEng
+ {
+   background-color: #660099;
+   color: #ffffff;
+ }
+
+.problem { color:#FF8080; }
+
+.recovery { color:#80FF80; }
+
+.acknowledgement { color:#FFFF80; }
+
+.downtimestart { color:#80FFFF; }
+
+.downtimeend { color:#80FF80; }
+
+.downtimecanceled { color:#FFFF80; }
+
+.flappingstart { color:#FF8080; }
+
+.flappingend { color:#80FF80; }
+
+.flappingdisabled { color:#FFFF80; }
+
+.down { color:#FF8080; }
+
+.critical { color:#FF8080; }
+
+.warning { color:#FFFF80; }
+
+.unreachable { color:#80FFFF; }
+
+.pending { color:#80FFFF; }
+
+.unknown { color:#DE0AFF; }
+
+.up { color:#80FF80; }
+
+.ok { color:#80FF80; }
+
+
+</style>
+<body>
+
+<p> Icinga - <a href="http://icinga.hal2k1.foo.example.com">Icinga</a></p>
+<table>
+  <tr>
+    <th colspan=2 class=CEng>Caffeinated Engineering Monitoring Tools</th>
+  </tr>
+
+  <tr>
+    <th class=even>Notification Type:</th>
+    {% if 'PROBLEM' in NotificationType %}
+      {% set row_class = 'problem' %}
+    {% elif 'RECOVERY' in NotificationType %}
+      {% set row_class = 'recovery' %}
+    {% elif 'ACKNOWLEDGEMENT' in NotificationType %}
+      {% set row_class = 'acknowledgement' %}
+    {% else %}
+      {% set row_class = 'even' %}
+    {% endif %}
+    <td class="{{ row_class }}">{{ NotificationType }}</td>
+  </tr>
+
+  {% block SERVICE_EMAIL %}
+  {% endblock %}
+
+<tr>
+  <th class=even>Host Name:</th>
+  <td class=even>{{ HostName }}</td>
+</tr>
+
+<tr>
+  <th class=odd>Host Groups:</th>
+  <td class=odd>{{ HostGroup }}</td>
+</tr>
+
+  {% block HOST_EMAIL %}
+  {% endblock %}
+
+<tr>
+  <th class=even>IP Address:</th>
+  <td class=even>{{ IPAddress }}</td>
+</tr>
+
+<tr>
+  <th class=odd>Event Time:</th>
+  <td class=odd>{{ EventTime }}</td>
+</tr>
+
+<tr>
+  <th class=even>Escalated Notification:</th>
+  <td class=even>{{ Escalated }}</td>
+</tr>
+
+<tr>
+  <th colspan=2 class=odd><a href="http://icinga.hal2k1.foo.example.com">Current Host Status</a></th>
+</tr>
+
+<tr>
+  <th colspan=2 class=even><a href="http://gitrepo.hal2k1.foo.example.com/icinga/configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.cfg">Current Host Configuration</a></th>
+</tr>
+
+<tr>
+  <th colspan=2 class=odd><a href="http://documentation.hal2k1.foo.example.comm/wiki/index.php/Icinga">Alert Documentation</a></th>
+</tr>
+
+</table>
+</body>
+</html>

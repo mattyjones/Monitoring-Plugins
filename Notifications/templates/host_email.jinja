@@ -1,0 +1,20 @@
+{% extends "/templates/base_notification.jinja" %}
+
+{% block HOST_EMAIL %}
+
+<tr>
+  <th class=even>Host State:</th>
+  <td class=even>{{ HostState }}</td>
+</tr>
+
+<tr>
+  <th class=even>Host Output:</th>
+  <td class=even>{{ HostOutput }}</td>
+</tr>
+
+<tr>
+  <th class=even>Host Data:</th>
+  <td class=even>{{ HostData }}</td>
+</tr>
+
+{% endblock %}
