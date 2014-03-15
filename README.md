@@ -21,4 +21,4 @@ The management folder is a currently a single script but in the future I will be
 Future Plans
 ------------
 
-I would like to create an rpm package at some point to make it more simple for people to install these.  I will do this using Python's bdist_rpm command so that users can tailor the rpm to their needs.  I may also compile the code to C using Cython for the benifit of portability, just a thought at this time though.
+I would like to create an rpm package at some point to make it more simple for people to install these.  I will do this using Python's bdist_rpm command so that users can tailor the rpm to their needs.  I know many shops require rpm's for installation and they need to be built and signed locally so this will be high on my list.  I may also compile the code to C using Cython for the benifit of portability, just a thought at this time though.
