@@ -20,6 +20,11 @@ Management Scripts
 
 The management folder is a currently a single script but in the future I will be porting my collection of sed/awk scripts to python.
 
+Service Checks
+--------------
+
+This will contain all service checks.
+
 Future Plans
 ------------
 
