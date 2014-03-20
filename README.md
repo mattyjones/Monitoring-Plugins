@@ -32,6 +32,11 @@ Management Scripts
 
 The management scripts folder is a currently a single script but in the future I will be porting my collection of sed/awk scripts to python.  Anything that manipulates Icinga itself or any configuration files should go here.
 
+Service Checks
+--------------
+
+This will contain all service checks.
+
 How To Contribute
 =================
 
