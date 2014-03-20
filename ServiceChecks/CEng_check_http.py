@@ -12,14 +12,14 @@
          server version and protocol.
 
  Usage:
- 
- Command Line 1:  ./CEng_check_http.py 
+
+ Command Line 1:  ./CEng_check_http.py
 
  Local Example:  ./CEng_check_http.py
- 
+
  TODO:
 
-'''  
+'''
 
 from datetime import datetime
 import socket
@@ -50,7 +50,7 @@ def main():
 
    # Open a socket to port 80
    conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-   
+
    try:
        conn.connect((server, 80))
    except IOError:
@@ -74,9 +74,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()   
-
-
-   
-
-       
+    main()
