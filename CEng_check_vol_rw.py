@@ -45,7 +45,7 @@ def main():
     RWFailDir =  []
     for item in x:
       if 'rw' not in item:
-        RWFailDir = item[3:]
+        RWFailDir.append(item[3:])
 
     # Create a list of mounts points to write to
     for item in x:
