@@ -26,11 +26,9 @@
 
 from datetime import datetime
 import sys
-#import subprocess
 import psutil
 
 import CEng_python_lib as ceng_lib
-#import settings
 
 if len(sys.argv) != 3:
     print('Please enter a warning and critical value')
