@@ -12,17 +12,17 @@ import sys
 import re
 
 
-def get_machine_name():
-    '''
-        get_machine_name
-        takes: nothing
-        returns: the machine name
-        function: get the local machine name
-
-    '''
-    name = socket.gethostname()
-    name = name.split('.')
-    return name[0]
+#def get_machine_name():
+#    '''
+#        get_machine_name
+#        takes: nothing
+#        returns: the machine name
+#        function: get the local machine name
+#
+#    '''
+#    name = socket.gethostname()
+#    name = name.split('.')
+#    return name[0]
 
 def get_local_hostname():
     '''
