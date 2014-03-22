@@ -56,6 +56,8 @@ def create_msg():
                    "IPAddress" : _IPAddress,
                    "EventTime" : _EventTime,
                    "IcingaServer" : IcingaServer,
+                   "HostAckComment" : _ServiceAckComment,
+                   "HostAckAuthor" : _ServiceAckAuthor,
                    "Escalated" : _Escalated }
    template_file = "/templates/service_email.jinja"
   else:
@@ -66,6 +68,8 @@ def create_msg():
                    "HostOutput" : _HostOutput,
                    "HostData" : _HostData,
                    "HostGroup" : _HostGroup,
+                   "HostAckComment" : _HostAckComment,
+                   "HostAckAuthor" : _HostAckAuthor,
                    "IPAddress" : _IPAddress,
                    "EventTime" : _EventTime,
                    "IcingaServer" : IcingaServer,
@@ -91,10 +95,14 @@ def main():
   global _ServiceState
   global _ServiceOutput
   global _ServiceData
+  global _ServiceAckAuthor
+  global _ServiceAckComment
   global _HostName
   global _HostState
   global _HostOutput
   global _HostData
+  global _HostAckAuthor
+  global _HostAckComment
   global _HostGroup
   global _IPAddress
   global _EventTime
@@ -118,6 +126,10 @@ def main():
   parser.add_argument('--ip_address', help='The IP address of the host alerting', required=False)
   parser.add_argument('--event_time', help='The time of the service check', required=False)
   parser.add_argument('--escalated', help='Is this an escalated notification', required=False)
+  parser.add_argument('--host_ack_comment', help='The comment associated with the host ack', required=False)
+  parser.add_argument('--host_ack_author', help='The author of the host ack', required=False)
+  parser.add_argument('--service_ack_comment', help='The comment associated with the service ack', required=False)
+  parser.add_argument('--service_ack_author', help='The author of the service ack', required=False)
   parser.add_argument('--to', help='This is who will receive the notification', required=False)
   args = vars(parser.parse_args())
 
@@ -141,6 +153,24 @@ def main():
     v =  ("Service State" + _ServiceState + "\n")
     l.write(v)
 
+  if args['service_ack_comment']:
+    _ServiceAckComment = args['service_ack_comment']
+    v =  ("Service Ack Comment: " + _ServiceAckComment + "\n")
+    l.write(v)
+  else:
+      _ServiceAckComment = ''
+      v =  ("Service Ack Comment: " + _ServiceAckComment + "\n")
+      l.write(v)
+
+  if args['service_ack_author']:
+    _ServiceAckAuthor = args['service_ack_author']
+    v =  ("Service Ack Author: " + _ServiceAckAuthor + "\n")
+    l.write(v)
+  else:
+        _ServiceAckAuthor = ''
+        v =  ("Service Ack Author: " + _ServiceAckAuthor + "\n")
+        l.write(v)
+
   if args['service_output']:
     _ServiceOutput = args['service_output']
     v =  ("Service Short output: " + _ServiceOutput + "\n")
@@ -153,6 +183,24 @@ def main():
   else:
     _ServiceData = ''
     v =  ("Service Long Output: " + _ServiceData + "\n")
+    l.write(v)
+
+  if args['host_ack_comment']:
+    _HostAckComment = args['host_ack_comment']
+    v =  ("Host Ack Comment: " + _HostAckComment + "\n")
+    l.write(v)
+  else:
+      _HostAckComment = ''
+      v =  ("Host Ack Comment: " + _HostAckComment + "\n")
+      l.write(v)
+
+  if args['host_ack_author']:
+    _HostAckAuthor = args['host_ack_author']
+    v =  ("Host Ack Author: " + _HostAckAuthor + "\n")
+    l.write(v)
+  else:
+    _HostAckAuthor = ''
+    v =  ("Host Ack Author: " + _HostAckAuthor + "\n")
     l.write(v)
 
   if args['host_name']:
