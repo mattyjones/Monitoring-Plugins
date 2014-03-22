@@ -56,8 +56,8 @@ def create_msg():
                    "IPAddress" : _IPAddress,
                    "EventTime" : _EventTime,
                    "IcingaServer" : IcingaServer,
-                   "HostAckComment" : _HostAckComment,
-                   "HostAckAuthor" : _HostAckAuthor,
+                   "HostAckComment" : _ServiceAckComment,
+                   "HostAckAuthor" : _ServiceAckAuthor,
                    "Escalated" : _Escalated }
    template_file = "/templates/service_email.jinja"
   else:
