@@ -17,6 +17,7 @@ develop-eggs
 .installed.cfg
 lib
 lib64
+*.tst
 __pycache__
 
 # Installer logs
