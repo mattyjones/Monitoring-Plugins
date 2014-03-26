@@ -1,7 +1,7 @@
 Overview
 ========
 
-This is an initial 0.1 release.  I know these work and I am using them personally but I am no Python or monitoring genius so I am sure they are rough around the edges.  My plan is to continue to port the nagios-plugins that I use to Python and if necessary or needed add additional functionality to them or in some cases clean them up and make them more reliable.  I have seen issues with some of them using the status.dat file in a large environment >400 hosts and have moved them to use the REST API instead.  I am always open to suggestions or additions.
+This is an initial 0.1 release.  I know these work and I am using them personally but I am no Python or monitoring genius so I am sure they are rough around the edges.  My plan is to continue to port the nagios-plugins that I use to Python and if necessary or needed add additional functionality to them or in some cases clean them up and make them more reliable.  I have seen issues with some of them using the status.dat file in a large environment >400 hosts and have moved them to use the REST API instead.  In the near future I will be using LiveStatus so that I can move away from any software dependencies.  I am always open to suggestions or additions.
 
 Goals
 -----
