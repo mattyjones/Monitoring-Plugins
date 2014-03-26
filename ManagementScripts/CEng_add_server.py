@@ -21,6 +21,13 @@
 import sys
 
 def replace_all(NewHost, HostTemplate, NewValues):
+ '''
+    replace_all
+    takes: NewHost HostTemplate, NewValues
+    returns: nothing
+    function: search fo a dic key and replace it with thecorrsponding dic value
+  '''
+  
   infile = open(HostTemplate)
   outfile = open(NewHost, 'w')
   for line in infile:
