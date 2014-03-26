@@ -248,7 +248,12 @@ def main():
     l.write(v)
 
   if args['escalated']:
-    _Escalated = args['escalated']
+    if args['escalated'] == '0':
+      _Escalated = 'No'
+    elif args['escalated'] == '1':
+      _Escalated = 'Yes'
+    else:
+      _Escalated = args['escalated']
     v =  ("Escalation Value: " + _Escalated + "\n")
     l.write(v)
 
