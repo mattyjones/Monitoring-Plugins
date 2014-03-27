@@ -13,9 +13,9 @@
 
  Usage:
 
- Command Line 1:  ./CEng_check_http.py
+ Command Line 1:  ./CEng_check_http.py --server <server> --warning <yes/no> --unknown <yes/no> --critical <yes/no>
 
- Local Example:  ./CEng_check_http.py
+ Local Example:  ./CEng_check_http.py --server hal2k1.foo.example.com --critical_alerts yes
 
  TODO:
 
@@ -24,54 +24,80 @@
 from datetime import datetime
 import socket
 import sys
-
+import argparse
 import CEng_python_lib as ceng_lib
-import settings as st
-
-# Check to see if a commandline arguement was entered and if so
-# attempt to validate it with a regex
-if len(sys.argv)  != 2:
-    print('Please enter a server to connect to')
-    sys.exit(2)
-else:
-    server = ceng_lib.validate_hostname(sys.argv[1])
-    if server:
-        server = sys.argv[1]
-    else:
-        print('Please enter a valid server to connect to')
-        sys.exit(2)
-
-    #print server
 
 def main():
+ 
+  # enable default alerting
+  OK = 0
+  WARNING = 1
+  CRITICAL = 2
+  UNKNOWN = 3
 
-   # Execution start time
-   start_time = datetime.now()
+  parser = argparse.ArgumentParser(description='check_http')
+  parser.add_argument('--server', help='the server you wish to connect to', required=True)
+  parser.add_argument('--warning', help='enable warning alerts and dashboard status\'s for this check, default is yes', required=False)
+  parser.add_argument('--critical', help='enable critical alerts and dashboard status\'s for this check, default is yes', required=False)
+  parser.add_argument('--unknown', help='enable unknown alerts and status\'s for this check, default is yes', required=False)
+  args = vars(parser.parse_args())
+  
+  # check for a ctitical state, if so and warning is not set to no, then set critical to warning
+  if args['critical']:
+    if args['critical'] == 'no' and args['warning'] == 'no':
+      CRITICAL = OK
+    else:
+      CRITICAL = WARNING
+  else:
+    CRITICAL = CRITICAL
+  
+  # check for a warning state, if so and critical is not set to no, then set warning to critical
+  if args['warning']:
+    if args['warning'] == 'no' and args['critical'] == 'no':
+      WARNING = OK
+    else:
+      WARNING = CRITICAL
+  else:
+    WARNING = WARNING 
+  
+  # if unknown is set to no, then set unknown to ok
+  if args['unknown']:
+    UNKNOWN = OK
 
-   # Open a socket to port 80
-   conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  if args['server']:
+    server = ceng_lib.validate_hostname(args['server'])
+    if server:
+      server = args['server']
+  else:
+    print "Please enter a valid hostname to connect to"
+    sys.exit('CRITICAL')
 
-   try:
-       conn.connect((server, 80))
-   except IOError:
-       print('There is no service listening on port 80. Make sure the webserver is running and listening on port 80')
-       sys.exit(2)
-   else:
-       pass
 
-   # Check for the desired output
-   output = ceng_lib.get_icinga_http_output(conn)
-   conn.close()
+  # Execution start time
+  start_time = datetime.now()
 
-   run_time = datetime.now() - start_time
+  # Open a socket to port 80
+  conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-   if output:
-       print('%s; | \'Check_Time\'=%s;;;0.000000;60.000000;' % (output, run_time))
-       sys.exit(0)
-   else:
-       print('There is a problem with the https server; | \'Check_Time\'=%s;;;0.000000;60.000000;' % (run_time))
-       sys.exit(2)
+  try:
+    conn.connect((server, 80))
+  except IOError:
+    print('There is no service listening on port 80. Make sure the webserver is running and listening on port 80')
+    sys.exit(CRITICAL)
+  else:
+   pass
 
+  # Check for the desired output
+  output = ceng_lib.get_icinga_http_output(conn)
+  conn.close()
+
+  run_time = datetime.now() - start_time
+  if output:
+    print('%s; | \'Check_Time\'=%s;;;0.000000;60.000000;' % (output, run_time))
+    sys.exit(OK)
+  else:
+    print('There is a problem with the https server; | \'Check_Time\'=%s;;;0.000000;60.000000;' % (run_time))
+    sys.exit(CRITICAL)
 
 if __name__ == "__main__":
     main()
