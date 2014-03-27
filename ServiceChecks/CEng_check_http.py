@@ -46,7 +46,7 @@ def main():
   if args['critical']:
     if args['critical'] == 'no' and args['warning'] == 'no':
       CRITICAL = OK
-    else:
+    elif args['critical'] == 'no' and args['warning'] != 'no':
       CRITICAL = WARNING
   else:
     CRITICAL = CRITICAL
@@ -55,14 +55,17 @@ def main():
   if args['warning']:
     if args['warning'] == 'no' and args['critical'] == 'no':
       WARNING = OK
-    else:
-      WARNING = CRITICAL
+    elif args['warning'] == 'no' and args['critical'] != 'no':
+      WARNING = OK
   else:
     WARNING = WARNING 
   
   # if unknown is set to no, then set unknown to ok
   if args['unknown']:
-    UNKNOWN = OK
+    if args['unknown'] == 'no':
+      UNKNOWN = OK
+    else:
+      UNKNOWN = UNKNOWN
 
   if args['server']:
     server = ceng_lib.validate_hostname(args['server'])
