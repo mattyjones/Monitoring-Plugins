@@ -22,11 +22,54 @@ CEng_check_cluster
 import json
 import requests
 import sys
-
-Service = sys.argv[1]
-CritThreshold = sys.argv[2]
+import argparse
 
 def main ():
+
+  # enable default alerting
+  OK = 0
+  WARNING = 1
+  CRITICAL = 2
+  UNKNOWN = 3
+
+  parser = argparse.ArgumentParser(description='check_cluster')
+  parser.add_argument('--service', help='the service you want to monitor', required=True)
+  parser.add_argument('--threshold', help='the threshold at which you wish to trip', required=True)
+  parser.add_argument('--warning', help='enable warning alerts and dashboard status\'s for this check, default is yes', required=False)
+  parser.add_argument('--critical', help='enable critical alerts and dashboard status\'s for this check, default is yes', required=False)
+  parser.add_argument('--unknown', help='enable unknown alerts and status\'s for this check, default is yes', required=False)
+  args = vars(parser.parse_args())
+  
+  # check for a ctitical state, if so and warning is not set to no, then set critical to warning
+  if args['critical']:
+    if args['critical'] == 'no' and args['warning'] == 'no':
+      CRITICAL = OK
+    elif args['critical'] == 'no' and args['warning'] != 'no':
+      CRITICAL = WARNING
+  else:
+    CRITICAL = CRITICAL
+  
+  # check for a warning state, if so and critical is not set to no, then set warning to critical
+  if args['warning']:
+    if args['warning'] == 'no' and args['critical'] == 'no':
+      WARNING = OK
+    elif args['warning'] == 'no' and args['critical'] != 'no':
+      WARNING = OK
+  else:
+    WARNING = WARNING 
+  
+  # if unknown is set to no, then set unknown to ok
+  if args['unknown']:
+    if args['unknown'] == 'no':
+      UNKNOWN = OK
+    else:
+      UNKNOWN = UNKNOWN
+
+  if args['service']:
+    Service = args['service']
+
+  if args['threshold']:
+    Threshold = args['threshold']
 
   CritNum = 0
   WarnNum = 0
@@ -47,13 +90,14 @@ def main ():
       elif item.get('SERVICE_CURRENT_STATE') == '3':
         UnKnownNum = UnKnownNum + 1
 
+  AlertNum = WarnNum + CritNum + UnKnownNum
 
-  if CritNum > CritThreshold:
+  if AlertNum > Threshold:
       print WarnNum, 'machines warning', CritNum, 'machines critical', UnKnownNum, 'machines Unknown'
-      sys.exit(2)
+      sys.exit(CRITICAL)
   else:
-      print Service, 'is above critical threshold'
-      sys.exit(0)
+      print Service, 'is above  alerting threshold'
+      sys.exit(OK)
 
 if __name__ == '__main__':
   main()
