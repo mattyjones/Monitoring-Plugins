@@ -10,11 +10,11 @@ CEng_check_cluster
  Notes:  The will use the Icinga Rest API to get all services in a non-ok state and allow you to send out
          a single notification instead of one per host.
 
- Command Line 1:  ./CEng_check_cluster.py --service <service description> --threshold <critical threshold> --warning <yes/no> --critical <yes/no> --unknown <yes/no>
+ Command Line 1:  ./CEng_check_cluster.py <service description> <critical threshold> --warning <yes/no> --critical <yes/no> --unknown <yes/no>
 
  NRPE Examples   ./check_nrpe -H hal2k1.foo.example.com -c CEng_check_cluster.py "NTP Offset" 10
 
- Local Example:  /CEng_check_cluster.py --service "NTP Offset" --threshold 10 --unknown no -- critical yes -- warning no
+ Local Example:  /CEng_check_cluster.py "NTP Offset" 10 --unknown no -- critical yes -- warning no
 
 '''
 
@@ -32,12 +32,13 @@ def main ():
   CRITICAL = 2
   UNKNOWN = 3
 
-  parser = argparse.ArgumentParser(description='check_cluster')
-  parser.add_argument('--service', help='the service you want to monitor', required=True)
-  parser.add_argument('--threshold', help='the threshold at which you wish to trip', required=True)
-  parser.add_argument('--warning', help='enable warning alerts and dashboard status\'s for this check, default is yes', required=False)
-  parser.add_argument('--critical', help='enable critical alerts and dashboard status\'s for this check, default is yes', required=False)
-  parser.add_argument('--unknown', help='enable unknown alerts and status\'s for this check, default is yes', required=False)
+  parser = argparse.ArgumentParser(description=' The will use the Icinga Rest API to get all services in a non-ok state and allow you to send out
+         a single notification instead of one per host.')
+  parser.add_argument('service', help='the service you want to monitor')
+  parser.add_argument('threshold', help='the threshold at which you wish to trip')
+  parser.add_argument('--warning',  choices=['yes', 'no'], default ='yes', help='enable warning alerts and dashboard status\'s for this check (default: yes)')
+  parser.add_argument('--critical',  choices=['yes', 'no'], default ='yes', help='enable critical alerts and dashboard status\'s for this check (default: yes)')
+  parser.add_argument('--unknown',  choices=['yes', 'no'], default ='yes', help='enable unknown alerts and status\'s for this check (default: yes)')
   args = vars(parser.parse_args())
   
   # check for a ctitical state, if so and warning is not set to no, then set critical to warning

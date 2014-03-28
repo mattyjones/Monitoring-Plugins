@@ -13,9 +13,9 @@
 
  Usage:
 
- Command Line 1:  ./CEng_check_http.py --server <server> --warning <yes/no> --unknown <yes/no> --critical <yes/no>
+ Command Line 1:  ./CEng_check_http.py <server> --warning <yes/no> --unknown <yes/no> --critical <yes/no>
 
- Local Example:  ./CEng_check_http.py --server hal2k1.foo.example.com --critical yes
+ Local Example:  ./CEng_check_http.py hal2k1.foo.example.com --critical yes
 
  TODO:
 
@@ -35,11 +35,12 @@ def main():
   CRITICAL = 2
   UNKNOWN = 3
 
-  parser = argparse.ArgumentParser(description='check_http')
-  parser.add_argument('--server', help='the server you wish to connect to', required=True)
-  parser.add_argument('--warning', help='enable warning alerts and dashboard status\'s for this check, default is yes', required=False)
-  parser.add_argument('--critical', help='enable critical alerts and dashboard status\'s for this check, default is yes', required=False)
-  parser.add_argument('--unknown', help='enable unknown alerts and status\'s for this check, default is yes', required=False)
+  parser = argparse.ArgumentParser(description='Open a socket to a remote SSH port and receives the current SSH
+         server version and protocol.')
+  parser.add_argument('server', help='the server you wish to connect to')
+  parser.add_argument('--warning', choices=['yes', 'no'], default ='yes', help='enable warning alerts and dashboard status\'s for this check (default: yes)')
+  parser.add_argument('--critical', choices=['yes', 'no'], default ='yes', help='enable critical alerts and dashboard status\'s for this check (default: yes)')
+  parser.add_argument('--unknown', choices=['yes', 'no'], default ='yes', help='enable unknown alerts and status\'s for this check (default: yes)')
   args = vars(parser.parse_args())
   
   # check for a ctitical state, if so and warning is not set to no, then set critical to warning
