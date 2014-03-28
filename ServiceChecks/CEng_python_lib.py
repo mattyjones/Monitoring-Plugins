@@ -11,6 +11,12 @@ from subprocess import call
 import sys
 import re
 
+OK = 1
+WARNING = 2
+CRITICAL = 3
+UNKNOWN = 4
+
+
 
 #def get_machine_name():
 #    '''
