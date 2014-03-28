@@ -28,12 +28,12 @@ import argparse
 import CEng_python_lib as ceng_lib
 
 def main():
- 
+
   # enable default alerting
-  OK = 0
-  WARNING = 1
-  CRITICAL = 2
-  UNKNOWN = 3
+OK = ceng_lib.OK
+WARNING = ceng_lib.WARNING
+CRITICAL = ceng_lib.CRITICAL
+UNKNOWN = ceng_lib.UNKNOWN
 
   parser = argparse.ArgumentParser(description='Open a socket to a remote SSH port and receives the current SSH
          server version and protocol.')
@@ -42,7 +42,7 @@ def main():
   parser.add_argument('--critical', choices=['yes', 'no'], default ='yes', help='enable critical alerts and dashboard status\'s for this check (default: yes)')
   parser.add_argument('--unknown', choices=['yes', 'no'], default ='yes', help='enable unknown alerts and status\'s for this check (default: yes)')
   args = vars(parser.parse_args())
-  
+
   # check for a ctitical state, if so and warning is not set to no, then set critical to warning
   if args['critical']:
     if args['critical'] == 'no' and args['warning'] == 'no':
@@ -51,7 +51,7 @@ def main():
       CRITICAL = WARNING
   else:
     CRITICAL = CRITICAL
-  
+
   # check for a warning state, if so and critical is not set to no, then set warning to critical
   if args['warning']:
     if args['warning'] == 'no' and args['critical'] == 'no':
@@ -59,8 +59,8 @@ def main():
     elif args['warning'] == 'no' and args['critical'] != 'no':
       WARNING = OK
   else:
-    WARNING = WARNING 
-  
+    WARNING = WARNING
+
   # if unknown is set to no, then set unknown to ok
   if args['unknown']:
     if args['unknown'] == 'no':
