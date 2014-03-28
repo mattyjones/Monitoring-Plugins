@@ -15,7 +15,7 @@
 
  Command Line 1:  ./CEng_check_http.py --server <server> --warning <yes/no> --unknown <yes/no> --critical <yes/no>
 
- Local Example:  ./CEng_check_http.py --server hal2k1.foo.example.com --critical_alerts yes
+ Local Example:  ./CEng_check_http.py --server hal2k1.foo.example.com --critical yes
 
  TODO:
 
