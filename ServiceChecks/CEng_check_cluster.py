@@ -10,11 +10,11 @@ CEng_check_cluster
  Notes:  The will use the Icinga Rest API to get all services in a non-ok state and allow you to send out
          a single notification instead of one per host.
 
- Command Line 1:  ./CEng_check_cluster.py <service description> <critical threshold>
+ Command Line 1:  ./CEng_check_cluster.py --service <service description> --threshold <critical threshold> --warning <yes/no> --critical <yes/no> --unknown <yes/no>
 
  NRPE Examples   ./check_nrpe -H hal2k1.foo.example.com -c CEng_check_cluster.py "NTP Offset" 10
 
- Local Example:  /CEng_check_cluster.py NTP 10
+ Local Example:  /CEng_check_cluster.py --service "NTP Offset" --threshold 10 --unknown no -- critical yes -- warning no
 
 '''
 
