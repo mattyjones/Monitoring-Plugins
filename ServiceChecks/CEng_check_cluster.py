@@ -35,7 +35,7 @@ def main ():
   parser = argparse.ArgumentParser(description=' The will use the Icinga Rest API to get all services in a non-ok state and allow you to send out
          a single notification instead of one per host.')
   parser.add_argument('service', help='the service you want to monitor')
-  parser.add_argument('threshold', help='the threshold at which you wish to trip')
+  parser.add_argument('threshold', type=int, help='the threshold at which you wish to trip')
   parser.add_argument('--warning',  choices=['yes', 'no'], default ='yes', help='enable warning alerts and dashboard status\'s for this check (default: yes)')
   parser.add_argument('--critical',  choices=['yes', 'no'], default ='yes', help='enable critical alerts and dashboard status\'s for this check (default: yes)')
   parser.add_argument('--unknown',  choices=['yes', 'no'], default ='yes', help='enable unknown alerts and status\'s for this check (default: yes)')
