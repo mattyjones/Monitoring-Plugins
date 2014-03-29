@@ -11,10 +11,10 @@ from subprocess import call
 import sys
 import re
 
-OK = 1
-WARNING = 2
-CRITICAL = 3
-UNKNOWN = 4
+ok_status_exit_code = 1
+warning_status_exit_code = 2
+critical_status_exit_code = 3
+unknown_status_exit_code = 4
 
 
 

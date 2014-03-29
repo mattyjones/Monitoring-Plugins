@@ -25,45 +25,34 @@ import sys
 import subprocess
 import os
 import argparse
+import CEng_python_lib as ceng_lib
 
 def main():
 
   # enable default alerting
-  OK = ceng_lib.OK
-  WARNING = ceng_lib.WARNING
-  CRITICAL = ceng_lib.CRITICAL
-  UNKNOWN = ceng_lib.UNKNOWN
+  ok_status_exit_code = ceng_lib.ok_status_exit_code
+  warning_status_exit_code = ceng_lib.warning_status_exit_code
+  critical_status_exit_code = ceng_lib.critical_status_exit_code
+  unknown_status_exit_code = ceng_lib.unknown_status_exit_code
 
   parser = argparse.ArgumentParser(description='This script will get a list of mount points from /proc/self/mounts to see if they are read only.')
-  parser.add_argument('--warning', choices=['yes', 'no'], default ='yes', help='enable warning alerts and dashboard status\'s for this check (default: yes)')
-  parser.add_argument('--critical', choices=['yes', 'no'], default ='yes', help='enable critical alerts and dashboard status\'s for this check (default: yes)')
-  parser.add_argument('--unknown', choices=['yes', 'no'], default ='yes', help='enable unknown alerts and status\'s for this check (default: yes)')
-  args = vars(parser.parse_args())
+  parser.add_argument('--no-alert-on-warning', action='store_true', help='disable warning alerts and dashboard status\'s for this check (default: yes)')
+  parser.add_argument("--no-alert-on-critical", action='store_true', help='disable critical alerts and dashboard status\'s for this check (default: yes)')
+  parser.add_argument('--no-alert-on-unknown', action='store_true', help='disable unknown alerts and status\'s for this check (default: yes)')
+  args = parser.parse_args()
 
   # check for a ctitical state, if so and warning is not set to no, then set critical to warning
-  if args['critical']:
-    if args['critical'] == 'no' and args['warning'] == 'no':
-      CRITICAL = OK
-      elif args['critical'] == 'no' and args['warning'] != 'no':
-        CRITICAL = WARNING
-    else:
-      CRITICAL = CRITICAL
+  critical_status_exit_code = min(1 if args.no_alert_on_critical else 2,
+                                  0 if args.no_alert_on_warning and args.no_alert_on_critical else 2)
+  #print "critical: ", critical_status_exit_code
 
   # check for a warning state, if so and critical is not set to no, then set warning to critical
-  if args['warning']:
-    if args['warning'] == 'no' and args['critical'] == 'no':
-      WARNING = OK
-    elif args['warning'] == 'no' and args['critical'] != 'no':
-      WARNING = OK
-    else:
-      WARNING = WARNING
+  warning_status_exit_code = 0 if args.no_alert_on_warning else 1
+  #print "warning: ", warning_status_exit_code
 
   # if unknown is set to no, then set unknown to ok
-  if args['unknown']:
-    if args['unknown'] == 'no':
-      UNKNOWN = OK
-      else:
-        UNKNOWN = UNKNOWN
+  unknown_status_exit_code = 0 if args.no_alert_on_unknown else 3
+  #print "unknown: ", unknown_status_exit_code
 
   # Execution start time
   start_time = datetime.now()
@@ -76,11 +65,11 @@ def main():
   # This script needs to run as root
   if uid != '0':
     print 'You must be root to run this'
-    sys.exit(CRITICAL)
+    sys.exit(critical_status_exit_code)
   else:
     pass
 
-    ExitCode = OK
+  exit_code = ok_status_exit_code
 
   # The directory to write into
   test_dir = '/lost+found'
@@ -104,22 +93,21 @@ def main():
 
   if output:
     ro_dir.append(working_directory)
-    exit_code = WARNING
+    exit_code = warning_status_exit_code
   else:
-    if exit_code != WARNING:
-      exit_code = OK
+    if exit_code != warning_status_exit_code:
+      exit_code = ok_status_exit_code
 
   # The script run time
   run_time = datetime.now() - start_time
 
-  if ExitCode == CRITICAL:
+  if exit_code == critical_status_exit_code:
     print (ro_dir, ' are Read-Only | \'Check_Time\'=%s;;;0.000000;60.000000;' % (run_time))
-    sys.exit(ExitCode)
+    sys.exit(exit_code)
 
-  elif ExitCode == OK:
+  elif exit_code == ok_status_exit_code:
     print ('All directories are Read/Write | \'Check_Time\'=%s;;;0.000000;60.000000;' % (run_time))
-    sys.exit(ExitCode)
-
+    sys.exit(exit_code)
 
 if __name__ == "__main__":
     main()
