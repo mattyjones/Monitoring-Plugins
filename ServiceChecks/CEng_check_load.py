@@ -6,7 +6,7 @@
 
  Matt Jones caffeinatedengineering@gmail.com
  Created 03.30.14
- Last Update 03.30.14
+ Last Update 04.01.14
 
  Notes:  Get the current load average at 1, 5, and 15 minute.  The will function idential to the nagios plugins check_load, which reads from /proc/loadavg.
          The load average is defined as how many processes on average are using the CPU (R status), or waiting for the cpu (D status).  Uptime along with most other utilities read from this file so its trustworthyness is beyond question.
@@ -58,16 +58,17 @@ def main():
     #print "unknown: ", unknown_status_exit_code
 
     #if args.warning_threshold:
-    WarningThreshold = args.warning_threshold
+    warning_threshold = args.warning_threshold
 
     #if args.critical_threshold:
-    CriticalThreshold = args.critical_threshold
+    critical_threshold = args.critical_threshold
 
     # Execution start time
     start_time = datetime.now()
 
     f = open('/proc/loadavg', 'r')
     load = f.readlines()
+    f.close()
 
     one_min_avg = load[0].split()[0]
     five_min_avg = load[0].split()[1]
@@ -76,18 +77,23 @@ def main():
     # The script run time
     run_time = datetime.now() - start_time
     
-    if CriticalThreshold >= one_min_avg or CriticalThreshold[1] >= five_min_avg or CriticalThreshold[2] >= fifteen_min_avg:
+    if critical_threshold >= one_min_avg or critical_threshold[1] >= five_min_avg or critical_threshold[2] >= fifteen_min_avg:
         print('The CPU Load Avg has exceeded the critical threshold | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
-             (one_min_avg, WarningThreshold[0], CriticalThreshold[0], five_min_avg, WarningThreshold[1], CriticalThreshold[1], fifteen_min_avg, WarningThreshold[2], CriticalThreshold[2], run_time))
+             (one_min_avg, warning_threshold[0], CriticalThreshold[0], five_min_avg, warning_threshold[1], CriticalThreshold[1], fifteen_min_avg, warning_threshold[2], CriticalThreshold[2], run_time))
         sys.exit(critical_status_exit_code)
-    elif WarningThreshold[0] >= one_min_avg or WarningThreshold[1] >= five_min_avg or WarningThreshold[2] >= fifteen_min_avg:
+    elif warning_threshold[0] >= one_min_avg or warning_threshold[1] >= five_min_avg or warning_threshold[2] >= fifteen_min_avg:
         print('The CPU Load Avg has exceeded the warning threshold | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
-             (one_min_avg, WarningThreshold[0], CriticalThreshold[0], five_min_avg, WarningThreshold[1], CriticalThreshold[1], fifteen_min_avg, WarningThreshold[2], CriticalThreshold[2], run_time))
+             (one_min_avg, warning_threshold[0], critical_threshold[0], five_min_avg, warning_threshold[1], critical_threshold[1], fifteen_min_avg, warning_threshold[2], critical_threshold[2], run_time))
+        sys.exit(critical_status_exit_code)
+    elif warning_threshold[0] >= one_min_avg or warning_threshold[1] >= five_min_avg or warning_threshold[2] >= fifteen_min_avg:
+        print('The CPU Load Avg has exceeded the warning threshold | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
+             (one_min_avg, warning_threshold[0], critical_threshold[0], five_min_avg, warning_threshold[1], critical_threshold[1], fifteen_min_avg, warning_threshold[2], critical_threshold[2], run_time))
         sys.exit(warning_status_exit_code)
     else:
         print('The CPU Load Avg is within all thresholds | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
-             (one_min_avg, WarningThreshold[0], CriticalThreshold[0], five_min_avg, WarningThreshold[1], CriticalThreshold[1], fifteen_min_avg, WarningThreshold[2], CriticalThreshold[2], run_time))
+             (one_min_avg, warning_threshold[0], critical_threshold[0], five_min_avg, warning_threshold[1], critical_threshold[1], fifteen_min_avg, warning_threshold[2], critical_threshold[2], run_time))
         sys.exit(ok_status_exit_code)
+
 
 if __name__ == "__main__":
     main()

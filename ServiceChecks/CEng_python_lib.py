@@ -1,34 +1,20 @@
 '''
 Caffeinated Engineering Python Function Library
- Matt Jones caffeinatedengineering@gmail.com
- Created 10.21.13
- Last Update 12.10.13
+Matt Jones caffeinatedengineering@gmail.com
+Created 10.21.13
+Last Update 04.01.14
 
 '''
 
 import socket
-from subprocess import call
 import sys
 import re
 
-ok_status_exit_code = 1
-warning_status_exit_code = 2
-critical_status_exit_code = 3
-unknown_status_exit_code = 4
+ok_status_exit_code = 0
+warning_status_exit_code = 1
+critical_status_exit_code = 2
+unknown_status_exit_code = 3
 
-
-
-#def get_machine_name():
-#    '''
-#        get_machine_name
-#        takes: nothing
-#        returns: the machine name
-#        function: get the local machine name
-#
-#    '''
-#    name = socket.gethostname()
-#    name = name.split('.')
-#    return name[0]
 
 def get_local_hostname():
     '''
@@ -113,7 +99,7 @@ def get_port_output(conn):
     r = conn.recv(size)
     x = r.find('Server:') # The start of the string I want
     if not x:
-        print('There is a problem with the https server')
+        print('There is a problem with the http server')
         sys.exit(2)
     y = r.find('X-') # The end of the string I want
     output = r[x:y]  # The string I want
