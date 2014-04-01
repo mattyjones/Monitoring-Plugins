@@ -5,7 +5,7 @@ CEng_check_cluster
 
  Matt Jones caffeinatedengineering@gmail.com
  Created 03.10.13
- Last Update 03.13.13
+ Last Update 04.01.13
 
  Notes:  The will use the Icinga Rest API to get all services in a non-ok state and allow you to send out
          a single notification instead of one per host.
