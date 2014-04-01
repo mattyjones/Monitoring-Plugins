@@ -57,7 +57,7 @@ def main():
 
     start_time = datetime.now()
     exit_code = ok_status_exit_code
-    
+
     # I am using self/mounts so that this will work if the user has namespaces in place, if so then adjust as necessary.
     # Do not use self/mountinfo, while more comprehensive and the 'best' place to go, it is not available prior to 2.26 which rules out < Cent6
     # Do not use mount or mtab as they are staticly generated from fstab and are not updated by select() in realtime
@@ -79,14 +79,14 @@ def main():
     for item in x:
         mount_points.append(item[3:])
 
-    file = '/.icinga_ro_check' # The file to write, leave the slash it will account for root not being in the list of mount points
+    test_file = '/.icinga_ro_check' # The file to write, leave the slash it will account for root not being in the list of mount points
     write_fail_dir = []
 
     i = iter(mount_points)
 
     # Attempt to open the file for writing
     for d in mount_points:
-        filepath = i.next() + file
+        filepath = i.next() + test_file
         try:
             f = open( filepath, 'w' )
             f.write(str(start_time))
