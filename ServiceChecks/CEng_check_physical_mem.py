@@ -30,9 +30,6 @@ import psutil
 import argparse
 import CEng_python_lib as ceng_lib
 
-# Get the hostname
-machine_name = ceng_lib.get_local_hostname()
-
 def main():
 
     # enable default alerting
