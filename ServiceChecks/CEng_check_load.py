@@ -57,10 +57,8 @@ def main():
     unknown_status_exit_code = 0 if args.no_alert_on_unknown else 3
     #print "unknown: ", unknown_status_exit_code
 
-    #if args.warning_threshold:
     warning_threshold = args.warning_threshold
 
-    #if args.critical_threshold:
     critical_threshold = args.critical_threshold
 
     # Execution start time
