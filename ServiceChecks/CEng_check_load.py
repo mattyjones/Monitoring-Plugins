@@ -6,7 +6,7 @@
 
  Matt Jones caffeinatedengineering@gmail.com
  Created 03.30.14
- Last Update 03.30.14
+ Last Update 04.01.14
 
  Notes:  Get the current load average at 1, 5, and 15 minute.  The will function idential to the nagios plugins check_load, which reads from /proc/loadavg.
          The load average is defined as how many processes on average are using the CPU (R status), or waiting for the cpu (D status).  Uptime along with most other utilities read from this file so its trustworthyness is beyond question.
