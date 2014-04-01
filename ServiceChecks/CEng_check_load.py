@@ -79,7 +79,7 @@ def main():
     
     if critical_threshold >= one_min_avg or critical_threshold[1] >= five_min_avg or critical_threshold[2] >= fifteen_min_avg:
         print('The CPU Load Avg has exceeded the critical threshold | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
-             (one_min_avg, warning_threshold[0], CriticalThreshold[0], five_min_avg, warning_threshold[1], CriticalThreshold[1], fifteen_min_avg, warning_threshold[2], CriticalThreshold[2], run_time))
+             (one_min_avg, warning_threshold[0], critical_threshold[0], five_min_avg, warning_threshold[1], critical_threshold[1], fifteen_min_avg, warning_threshold[2], critical_threshold[2], run_time))
         sys.exit(critical_status_exit_code)
     elif warning_threshold[0] >= one_min_avg or warning_threshold[1] >= five_min_avg or warning_threshold[2] >= fifteen_min_avg:
         print('The CPU Load Avg has exceeded the warning threshold | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
