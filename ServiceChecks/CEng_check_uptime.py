@@ -6,7 +6,7 @@
 
  Matt Jones caffeinatedengineering@gmail.com
  Created 03.31.14
- Last Update 03.31.14
+ Last Update 04.01.14
 
  Notes:  Get the current system uptime
  
@@ -55,7 +55,6 @@ def main():
     unknown_status_exit_code = 0 if args.no_alert_on_unknown else 3
     #print "unknown: ", unknown_status_exit_code
 
-    #if args.critical_threshold:
     alert_threshold = args.threshold
 
     # Execution start time
