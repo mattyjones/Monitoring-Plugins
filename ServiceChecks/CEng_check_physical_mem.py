@@ -64,10 +64,10 @@ def main():
   #print "unknown: ", unknown_status_exit_code
 
   if args.warning_threshold:
-    WarningThreshold = args.warning_threshold
+    warning_threshold = args.warning_threshold
 
   if args.critical_threshold:
-    CriticalThreshold = args.critical_threshold
+    critical_threshold = args.critical_threshold
 
   # Execution start time
   start_time = datetime.now()
@@ -85,7 +85,7 @@ def main():
   mem_active = memory[5] /1048876
   mem_caches = ( memory[7] + memory[8] ) /1048876
 
-  if memory[2] >= CriticalThreshold:
+  if memory[2] >= critical_threshold:
     print('Memory Usage Critical - %s (%sMB)Active; | Total=%sMB;;;; Active=%sMB;;;; Free=%sMB;;;; Cached=%sMB;;;; \'Check_Time\'=%s;;;0.000000;60.000000;' % (mem_percent,
                                                                                                                                                                          mem_active,
                                                                                                                                                                          mem_total,
@@ -95,7 +95,7 @@ def main():
                                                                                                                                                                          run_time))
     sys.exit(critical_status_exit_code)
 
-  elif memory[2] >= WarningThreshold:
+  elif memory[2] >= warning_threshold:
     print('Memory Usage Warning - %s (%sMB)Active; | Total=%sMB;;;; Active=%sMB;;;; Free=%sMB;;;; Cached=%sMB;;;; \'Check_Time\'=%s;;;0.000000;60.000000;' % (mem_percent,
                                                                                                                                                                          mem_active,
                                                                                                                                                                          mem_total,
