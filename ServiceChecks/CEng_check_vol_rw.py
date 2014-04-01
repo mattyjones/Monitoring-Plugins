@@ -44,10 +44,10 @@ def main():
 
     # check for a ctitical state, if so and warning is not set to no, then set critical to warning
     critical_status_exit_code = min(1 if args.no_alert_on_critical else 2,
-                                  0 if args.no_alert_on_warning and args.no_alert_on_critical else 2)
+                                    0 if args.no_alert_on_warning and args.no_alert_on_critical else 2)
     #print "critical: ", critical_status_exit_code
 
-    # check for a warning state, if so and critical is not set to no, then set warning to critical
+    # check for a warning state, if so and critical is not set to no, then set warning to ok
     warning_status_exit_code = 0 if args.no_alert_on_warning else 1
     #print "warning: ", warning_status_exit_code
 
@@ -55,8 +55,9 @@ def main():
     unknown_status_exit_code = 0 if args.no_alert_on_unknown else 3
     #print "unknown: ", unknown_status_exit_code
 
-    StartTime = datetime.now()
-    ExitCode = ok_status_exit_code
+    start_time = datetime.now()
+    exit_code = ok_status_exit_code
+    
     # I am using self/mounts so that this will work if the user has namespaces in place, if so then adjust as necessary.
     # Do not use self/mountinfo, while more comprehensive and the 'best' place to go, it is not available prior to 2.26 which rules out < Cent6
     # Do not use mount or mtab as they are staticly generated from fstab and are not updated by select() in realtime
@@ -65,46 +66,46 @@ def main():
     output = result.stdout.read()
     output = output.strip()
     x = []
-    MountPoints = []
+    mount_points = []
     x = output.split('\n')
 
     # Check to make sure the curent status as reported to the OS is rw
-    RWFailDir =  []
+    rw_fail_dir =  []
     for item in x:
         if 'rw' not in item:
-            RWFailDir.append(item[3:])
+            rw_fail_dir.append(item[3:])
 
     # Create a list of mounts points to write to
     for item in x:
-        MountPoints.append(item[3:])
+        mount_points.append(item[3:])
 
     file = '/.icinga_ro_check' # The file to write, leave the slash it will account for root not being in the list of mount points
-    WriteFailDir = []
+    write_fail_dir = []
 
-    i = iter(MountPoints)
+    i = iter(mount_points)
 
     # Attempt to open the file for writing
-    for d in MountPoints:
+    for d in mount_points:
         filepath = i.next() + file
         try:
             f = open( filepath, 'w' )
-            f.write(str(StartTime))
+            f.write(str(start_time))
             f.close()
         except IOError:
-            WriteFailDir.append(filepath)
-            ExitCode = critical_status_exit_code
+            write_fail_dir.append(filepath)
+            exit_code = critical_status_exit_code
 
-    RunTime = datetime.now() - StartTime
+    run_time = datetime.now() - start_time
 
-    if ExitCode != ok_status_exit_code:
-        print ('Directories are Read-Only | \'Check_Time\'=%s;;;0.000000;60.000000;' % (RunTime))
-        for dir in RWFailDir:
+    if exit_code != ok_status_exit_code:
+        print ('Directories are Read-Only | \'Check_Time\'=%s;;;0.000000;60.000000;' % (run_time))
+        for dir in rw_fail_dir:
             print dir, 'is not listed as rw according to the OS'
-        for dir in WriteFailDir:
+        for dir in write_fail_dir:
             print dir, 'could not be written to'
             sys.exit(critical_status_exit_code)
     else:
-        print ('All directories are Read/Write | \'Check_Time\'=%s;;;0.000000;60.000000;' % (RunTime))
+        print ('All directories are Read/Write | \'Check_Time\'=%s;;;0.000000;60.000000;' % (run_time))
         sys.exit(ok_status_exit_code)
 
 if __name__ == "__main__":
