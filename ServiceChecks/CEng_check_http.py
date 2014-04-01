@@ -55,10 +55,9 @@ def main():
     unknown_status_exit_code = 0 if args.no_alert_on_unknown else 3
     #print "unknown: ", unknown_status_exit_code
 
-    if args.server:
-        server = ceng_lib.validate_hostname(args.server)
-        if server:
-            server = args.server
+    server = ceng_lib.validate_hostname(args.server)
+    if server:
+        server = args.server
     else:
         print "Please enter a valid hostname to connect to"
         sys.exit(critical_status_exit_code)
