@@ -6,7 +6,7 @@
 
  Matt Jones caffeinatedengineering@gmail.com
  Created 01.24.14
- Last Update 01.24.14
+ Last Update 04.01.14
 
  Notes:  Script that opens a socket to a remote port and receives a stream of data.
          The <url> has to be defined in CEng_python_lib.py in order to be used, follow
@@ -58,19 +58,14 @@ def main():
     unknown_status_exit_code = 0 if args.no_alert_on_unknown else 3
     #print "unknown: ", unknown_status_exit_code
 
-    if args.port:
-        Port = args.port
-
-    if args.server:
-      Server = ceng_lib.validate_hostname(args.server)
-      if Server:
-          Server = args.server
-      else:
-          print "Please enter a valid hostname to connect to"
-      sys.exit(critical_status_exit_code)
-
-    if args.url:
-        Url = args.url
+    port = args.port
+    url = args.url
+    server = ceng_lib.validate_hostname(args.server)
+    if server:
+        server = args.server
+    else:
+        print "Please enter a valid hostname to connect to"
+        sys.exit(critical_status_exit_code)
 
     # Execution start time
     start_time = datetime.now()
@@ -79,7 +74,7 @@ def main():
     conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
-        conn.connect((Server, Port))
+        conn.connect((server, port))
     except IOError:
         print('There is no service listening on port 8080. Make sure the service is running and listening on port 8080')
         sys.exit(critical_status_exit_code)
@@ -88,11 +83,11 @@ def main():
 
 
     # Check for the desired output
-    if Url == 'root':
+    if url == 'root':
         output = ceng_lib.get_port_output(conn)
         conn.close()
         run_time = datetime.now() - start_time
-    elif Url == 'icinga-web':
+    elif url == 'icinga-web':
         output = ceng_lib.get_icinga_http_output(conn)
         conn.close()
         run_time = datetime.now() - start_time
