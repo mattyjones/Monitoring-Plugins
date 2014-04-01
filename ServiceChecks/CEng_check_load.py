@@ -25,7 +25,6 @@
 
 from datetime import datetime
 import sys
-import subprocess
 import argparse
 import CEng_python_lib as ceng_lib
 
@@ -80,17 +79,12 @@ def main():
     if CriticalThreshold >= one_min_avg or CriticalThreshold[1] >= five_min_avg or CriticalThreshold[2] >= fifteen_min_avg:
         print('The CPU Load Avg has exceeded the critical threshold | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
              (one_min_avg, WarningThreshold[0], CriticalThreshold[0], five_min_avg, WarningThreshold[1], CriticalThreshold[1], fifteen_min_avg, WarningThreshold[2], CriticalThreshold[2], run_time))
-        #print "The CPU Load has exceeded the critical threshold"
         sys.exit(critical_status_exit_code)
     elif WarningThreshold[0] >= one_min_avg or WarningThreshold[1] >= five_min_avg or WarningThreshold[2] >= fifteen_min_avg:
-        #print('The CPU Load Avg has exceeded the warning threshold | \'Load Avg\'=%s;0.00;1.0;0.00;10000000000; \'Check_Time\'=%s;;;0.000000;60.000000;' % )
         print('The CPU Load Avg has exceeded the warning threshold | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
              (one_min_avg, WarningThreshold[0], CriticalThreshold[0], five_min_avg, WarningThreshold[1], CriticalThreshold[1], fifteen_min_avg, WarningThreshold[2], CriticalThreshold[2], run_time))
-        #print "The CPU Load avg has exceeded the warning threshold"
         sys.exit(warning_status_exit_code)
     else:
-        #print "The CPU Load is within all thresholds"
-        #print('The CPU Load Avg is within all thresholds | \'Load Avg\'=%s;0.00;1.0;0.00;10000000000; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
         print('The CPU Load Avg is within all thresholds | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
              (one_min_avg, WarningThreshold[0], CriticalThreshold[0], five_min_avg, WarningThreshold[1], CriticalThreshold[1], fifteen_min_avg, WarningThreshold[2], CriticalThreshold[2], run_time))
         sys.exit(ok_status_exit_code)
