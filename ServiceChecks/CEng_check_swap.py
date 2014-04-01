@@ -86,7 +86,7 @@ def main():
                                                                                                                                  swap_total,
                                                                                                                                  swap_total,
                                                                                                                                  run_time))
-                                                                                                                                 sys.exit(critical_status_exit_code)
+        sys.exit(critical_status_exit_code)
 
     elif memory[2] >= warning_threshold:
         print('Memory Usage Warning - %s (%sMB out of %sMB); | Swap=%sMB;0;0;0;%sMB; \'Check_Time\'=%s;;;0.000000;60.000000;' % (
