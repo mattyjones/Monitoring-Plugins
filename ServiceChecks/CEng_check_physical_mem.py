@@ -59,11 +59,8 @@ def main():
     unknown_status_exit_code = 0 if args.no_alert_on_unknown else 3
     #print "unknown: ", unknown_status_exit_code
 
-    if args.warning_threshold:
-        warning_threshold = args.warning_threshold
-
-    if args.critical_threshold:
-        critical_threshold = args.critical_threshold
+    warning_threshold = args.warning_threshold
+    critical_threshold = args.critical_threshold
 
     # Execution start time
     start_time = datetime.now()
@@ -102,7 +99,7 @@ def main():
         sys.exit(warning_status_exit_code)
 
     else:
-        print('Memory Usage ok_status_exit_code - %s (%sMB)Active; | Total=%sMB;;;; Active=%sMB;;;; Free=%sMB;;;; Cached=%sMB;;;; \'Check_Time\'=%s;;;0.000000;60.000000;' % (mem_percent,
+        print('Memory Usage Ok - %s (%sMB)Active; | Total=%sMB;;;; Active=%sMB;;;; Free=%sMB;;;; Cached=%sMB;;;; \'Check_Time\'=%s;;;0.000000;60.000000;' % (mem_percent,
                                                                                                                                                                               mem_active,
                                                                                                                                                                               mem_total,
                                                                                                                                                                               mem_active,
