@@ -59,11 +59,8 @@ def main():
     unknown_status_exit_code = 0 if args.no_alert_on_unknown else 3
     #print "unknown: ", unknown_status_exit_code
 
-    if args.warning_threshold:
-        warning_threshold = args.warning_threshold
-
-    if args.critical_threshold:
-        critical_threshold = args.critical_threshold
+    warning_threshold = args.warning_threshold
+    critical_threshold = args.critical_threshold
 
     # Execution start time
     start_time = datetime.now()
@@ -79,7 +76,7 @@ def main():
     swap_used = memory[1] / 1048876
 
     if memory[2] >= critical_threshold:
-        print('Memory Usage Warning - %s (%sMB out of %sMB); | Swap=%sMB;0;0;0;%sMB; \'Check_Time\'=%s;;;0.000000;60.000000;' % (
+        print('Memory Usage Critical - %s (%sMB out of %sMB); | Swap=%sMB;0;0;0;%sMB; \'Check_Time\'=%s;;;0.000000;60.000000;' % (
                                                                                                                                  swap_percent,
                                                                                                                                  swap_used,
                                                                                                                                  swap_total,
@@ -99,7 +96,7 @@ def main():
         sys.exit(warning_status_exit_code)
 
     else:
-        print('Memory Usage Warning - %s (%sMB out of %sMB); | Swap=%sMB;0;0;0;%sMB; \'Check_Time\'=%s;;;0.000000;60.000000;' % (
+        print('Memory Usage Ok - %s (%sMB out of %sMB); | Swap=%sMB;0;0;0;%sMB; \'Check_Time\'=%s;;;0.000000;60.000000;' % (
                                                                                                                                  swap_percent,
                                                                                                                                  swap_used,
                                                                                                                                  swap_total,
