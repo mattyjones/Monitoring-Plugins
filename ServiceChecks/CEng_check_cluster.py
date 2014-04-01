@@ -59,29 +59,29 @@ def main ():
     if args.threshold:
       Threshold = args.threshold
 
-    CritNum = 0
-    WarnNum = 0
-    UnKnownNum = 0
+    number_critical = 0
+    number_warning = 0
+    number_unknown = 0
 
     Url = 'hostname/icinga-web/web/api/service/filter[AND(HOST_CURRENT_STATE|=|0;OR(SERVICE_CURRENT_STATE|!=|0;))]/columns[HOST_NAME|SERVICE_NAME|SERVICE_CURRENT_STATE]/order[SERVICE_CURRENT_STATE;DESC]/authkey=xxx/json'
     r = requests.get(Url)
-    JsonData = {}
-    JsonData = r.json()
+    json_data = {}
+    json_data = r.json()
 
-    for item in JsonData['result']:
+    for item in json_data['result']:
 
       if Service in item.values():
         if item.get('SERVICE_CURRENT_STATE') == '1':
-          WarnNum = WarnNum + 1
+          number_warning = number_warning + 1
         elif item.get('SERVICE_CURRENT_STATE') == '2':
-          CritNum = CritNum + 1
+          number_critical = number_critical + 1
         elif item.get('SERVICE_CURRENT_STATE') == '3':
-          UnKnownNum = UnKnownNum + 1
+          number_unknown = number_unknown + 1
 
-    AlertNum = WarnNum + CritNum + UnKnownNum
+    total_alert_num = number_warning + number_critical + number_unknown
 
-    if AlertNum > Threshold:
-        print WarnNum, 'machines warning', CritNum, 'machines critical', UnKnownNum, 'machines Unknown'
+    if total_alert_num > Threshold:
+        print number_warning, 'machines warning', number_critical, 'machines critical', number_unknown, 'machines Unknown'
         sys.exit(critical_status_exit_code)
     else:
         print Service, 'is above  alerting threshold'
