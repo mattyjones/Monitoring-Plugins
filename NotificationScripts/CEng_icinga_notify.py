@@ -44,38 +44,38 @@ def create_msg():
   try:
     _HostState
   except NameError:
-   msg['Subject'] = 'Icinga: ' + _NotificationType + ' service ' + _ServiceName + ' on ' + _HostName + ' is ' _ServiceState
-   templateVars = { "NotificationType" : _NotificationType,
-                   "ServiceName" : _ServiceName,
-                   "ServiceGroup" : _ServiceGroup,
-                   "ServiceState" : _ServiceState,
-                   "ServiceOutput" : _ServiceOutput,
-                   "ServiceData" : _ServiceData,
-                   "HostName" : _HostName,
-                   "HostGroup" : _HostGroup,
-                   "IPAddress" : _IPAddress,
-                   "EventTime" : _EventTime,
-                   "IcingaServer" : IcingaServer,
-                   "HostAckComment" : _ServiceAckComment,
-                   "HostAckAuthor" : _ServiceAckAuthor,
-                   "Escalated" : _Escalated }
-   template_file = "/templates/service_email.jinja"
+    msg['Subject'] = 'Icinga: ' + _NotificationType + ' service ' + _ServiceName + ' on ' + _HostName + ' is ' _ServiceState
+    templateVars = { "NotificationType" : _NotificationType,
+                     "ServiceName" : _ServiceName,
+                     "ServiceGroup" : _ServiceGroup,
+                     "ServiceState" : _ServiceState,
+                     "ServiceOutput" : _ServiceOutput,
+                     "ServiceData" : _ServiceData,
+                     "HostName" : _HostName,
+                     "HostGroup" : _HostGroup,
+                     "IPAddress" : _IPAddress,
+                     "EventTime" : _EventTime,
+                     "IcingaServer" : IcingaServer,
+                     "HostAckComment" : _ServiceAckComment,
+                     "HostAckAuthor" : _ServiceAckAuthor,
+                     "Escalated" : _Escalated }
+    template_file = "/templates/service_email.jinja"
   else:
-   msg['Subject'] = 'Icinga: ' + _NotificationType + ' Host ' + _HostName + ' is ' _ServiceState
-   templateVars = { "NotificationType" : _NotificationType,
-                   "HostName" : _HostName,
-                   "HostState" : _HostState,
-                   "HostOutput" : _HostOutput,
-                   "HostData" : _HostData,
-                   "HostGroup" : _HostGroup,
-                   "HostAckComment" : _HostAckComment,
-                   "HostAckAuthor" : _HostAckAuthor,
-                   "IPAddress" : _IPAddress,
-                   "EventTime" : _EventTime,
-                   "IcingaServer" : IcingaServer,
-                   "Escalated" : _Escalated }
-
-   template_file = "/templates/host_email.jinja"
+    msg['Subject'] = 'Icinga: ' + _NotificationType + ' Host ' + _HostName + ' is ' _ServiceState
+    templateVars = { "NotificationType" : _NotificationType,
+                     "HostName" : _HostName,
+                     "HostState" : _HostState,
+                     "HostOutput" : _HostOutput,
+                     "HostData" : _HostData,
+                     "HostGroup" : _HostGroup,
+                     "HostAckComment" : _HostAckComment,
+                     "HostAckAuthor" : _HostAckAuthor,
+                     "IPAddress" : _IPAddress,
+                     "EventTime" : _EventTime,
+                     "IcingaServer" : IcingaServer,
+                     "Escalated" : _Escalated }
+    template_file = "/templates/host_email.jinja"
+  
   template = templateEnv.get_template( template_file )
   outputText = template.render( templateVars )
   body = MIMEText(outputText, 'HTML')
@@ -83,9 +83,9 @@ def create_msg():
   send_msg(msg, MailSender, _To)
 
 def send_msg(msg, MailSender, _To):
-    s = smtplib.SMTP('localhost')
-    s.sendmail(MailSender, _To, msg.as_string())
-    s.quit()
+  s = smtplib.SMTP('localhost')
+  s.sendmail(MailSender, _To, msg.as_string())
+  s.quit()
 
 def main():
 
