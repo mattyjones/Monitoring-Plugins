@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/local/icingadata/store/icinga_management_scripts/lang/bin/python2.7
 
 '''
 

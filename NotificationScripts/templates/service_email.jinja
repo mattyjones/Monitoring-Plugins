@@ -1,4 +1,4 @@
-{% extends "/templates/base_notification.jinja" %}
+{% extends "templates/base_notification.jinja" %}
 
 {% block SERVICE_EMAIL %}
 
@@ -23,7 +23,7 @@
   {% elif 'WARNING' in ServiceState %}
     {% set row_class = 'warning' %}
   {% else %}
-    {% set row_class = 'odd' %}
+    {% set row_class = 'odd' %}  
   {% endif %}
   <td class="{{ row_class }}">{{ ServiceState }}</td>
 </tr>
@@ -37,16 +37,15 @@
   <th class=odd>Service Data:</th>
   <td class=odd>{{ ServiceData }}</td>
 </tr>
-
+<!--
 <tr>
-  <th class=odd>Service Ack Comment:</th>
+  <th class=odd>Ack Comment:</th>
   <td class=odd>{{ ServiceAckComment }}</td>
 </tr>
 
 <tr>
-  <th class=odd>Service Ack Author:</th>
+  <th class=odd>Ack Author:</th>
   <td class=odd>{{ ServiceAckAuthor }}</td>
 </tr>
-
-
+-->
 {% endblock %}

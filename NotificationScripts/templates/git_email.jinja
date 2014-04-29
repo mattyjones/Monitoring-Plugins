@@ -1,11 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
-<!-- need to create a layout that is relative so that the output is not dependent upon hardcoding the size -->
-
 <html lang="en">
 <head>
 <style>
-body
+body 
 {
     text-align:left;
     font-family:Verdana, sans-serif;
@@ -52,50 +50,47 @@ table
     </head>
     <body>
 
-        <!--
-
+        <!-- 
+        
         Section:  Icinga Repository Status
         Takes: RepoName, RepoOutput
         Returns:  Nothing
-
+        
         Function: Display the current status of the repo
-
-          -->
+        
+          -->    
         <h3>Icinga Repository Status</h3>
-        <table id="RepositoryStatusTable">
+        <table id="RepositoryStatusTable"> 
         <tr>
           <th>Repository</th>
           <th>Status</th>
         </tr>
         {% for repo in RepoName %}
               <tr>
-                <td> <a href="http://gitrepo.hal2k1.foo.example.com/icinga/{{ repo }}">{{ repo }}</a> </td>
+                <td> <a href="http://git.hal2k1.com/icinga/{{ repo }}">{{ repo }}</a> </td>
            {% if "error" in RepoOutput[RepoName.index(repo)] %}
                 {% set row_class = "error" %}
            {% else %}
                 {% set row_class = "good" %}
            {% endif %}
-                <td class="{{ row_class }}"> {{ RepoOutput[RepoName.index(repo)] }} </td>
+                <td class="{{ row_class }}"> {{ RepoOutput[RepoName.index(repo)] }} </td> 
               </tr>
-
+        
         {% endfor %}
         </table>
-        <!-- I want to add a direct link into the file here.  Not sure how to do that yet as the file path is dependent upon the repo.
-             I will need to add in a way to determine the repo name based on the file??
-        -->
-
-        <!--
-
+         
+        <!-- 
+        
         Section:  Modified Files
         Takes:  GitModifiedFiles
         Returns:  Nothing
-
+        
         Function: Display a list of modified files along with the state change ([A]dded, [D]eleted, [M]odified)
-
-        -->
-        {% if GitModifiedFiles %}
+        
+        --> 
+        {% if GitModifiedFiles %} 
         <h3>Modified Files</h3>
-        <p>The following files have been modified since the last update and are now active.  For details please visit the GitLab <a href="http://mongit201.be.monster.com">dashboard</a>.<br />
+        <p>The following files have been modified since the last update and are now active.  For details please visit the GitLab <a href="http://git.hal2k1.com">dashboard</a>.<br />
         M = modified<br />
         A = added<br />
         D = deleted<br /></p>
@@ -109,7 +104,7 @@ table
                 <td>{{ item[1] }}</td>
                 <td>{{ item[0] }}</td>
             </tr>
-
+        
         {% else %}
                <tr>
                  <td> No Files Have Been Modified <td>
@@ -130,24 +125,24 @@ table
         {% if "Failed" in CheckStatus %}
           {% set row_class = "error" %}
         {% else %}
-          {% set row_class = "good" %}
+          {% set row_class = "good" %}  
         {% endif %}
-        <td class="{{ row_class }}"> {{ CheckStatus  }} </td>
+        <td class="{{ row_class }}"> {{ CheckStatus  }} </td>  
         </tr>
         </table>
-
-        <!--
-
+        
+        <!-- 
+        
         Section:  Icinga Services
         Takes:  ServiceList, ServiceInfo
         Returns:  Nothing
-
+        
         Function: Display the current status and last restart of necessary services
-
-         -->
+        
+         --> 
 
         <h3>Icinga Services</h3>
-        <table id="ServiceStatusTable"> <!-- table needs to be padded and aligned -->
+        <table id="ServiceStatusTable"> 
         <tr>
           <th>Service</th>
           <th>Current Status</th>
@@ -162,7 +157,7 @@ table
               {% endif %}
             <tr>
               <td> {{ service }} </td>
-              <td class="{{ row_class }}"> {{ item }} </td>
+              <td class="{{ row_class }}"> {{ item }} </td> 
               <td> {{ ServiceInfo[service][item] }}</td>
             </tr>
             {% endfor %}

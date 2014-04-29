@@ -1,4 +1,4 @@
-{% extends "/templates/base_notification.jinja" %}
+{% extends "templates/base_notification.jinja" %}
 
 {% block HOST_EMAIL %}
 
@@ -16,15 +16,16 @@
   <th class=even>Host Data:</th>
   <td class=even>{{ HostData }}</td>
 </tr>
-
+<!--
 <tr>
-  <th class=odd>Host Ack Comment:</th>
+  <th class=odd>Ack Comment:</th>
   <td class=odd>{{ HostAckComment }}</td>
 </tr>
 
 <tr>
-  <th class=odd>Host Ack Author:</th>
+  <th class=odd>Ack Author:</th>
   <td class=odd>{{ HostAckAuthor }}</td>
 </tr>
+    -->    
 
 {% endblock %}

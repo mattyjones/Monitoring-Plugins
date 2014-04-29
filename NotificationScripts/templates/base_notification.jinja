@@ -102,11 +102,11 @@ table
 </style>
 <body>
 
-<p> Icinga - <a href="http://icinga.hal2k1.foo.example.com">Icinga</a></p>
+<p> Icinga - <a href="http://icinga.hal2k1.com">IcingaQA</a></p>
 <table>
   <tr>
-    <th colspan=2 class=CEng>Caffeinated Engineering Monitoring Tools</th>
-  </tr>
+    <th colspan=2 class=CEng></th>
+  </tr> 
 
   <tr>
     <th class=even>Notification Type:</th>
@@ -117,14 +117,14 @@ table
     {% elif 'ACKNOWLEDGEMENT' in NotificationType %}
       {% set row_class = 'acknowledgement' %}
     {% else %}
-      {% set row_class = 'even' %}
+      {% set row_class = 'even' %} 
     {% endif %}
     <td class="{{ row_class }}">{{ NotificationType }}</td>
   </tr>
 
   {% block SERVICE_EMAIL %}
   {% endblock %}
-
+  
 <tr>
   <th class=even>Host Name:</th>
   <td class=even>{{ HostName }}</td>
@@ -152,19 +152,7 @@ table
   <th class=even>Escalated Notification:</th>
   <td class=even>{{ Escalated }}</td>
 </tr>
-
-<tr>
-  <th colspan=2 class=odd><a href="http://icinga.hal2k1.foo.example.com">Current Host Status</a></th>
-</tr>
-
-<tr>
-  <th colspan=2 class=even><a href="http://gitrepo.hal2k1.foo.example.com/icinga/configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.cfg">Current Host Configuration</a></th>
-</tr>
-
-<tr>
-  <th colspan=2 class=odd><a href="http://documentation.hal2k1.foo.example.comm/wiki/index.php/Icinga">Alert Documentation</a></th>
-</tr>
-
 </table>
+
 </body>
 </html>

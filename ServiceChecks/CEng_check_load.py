@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python 
 
 '''
 
@@ -6,7 +6,7 @@
 
  Matt Jones caffeinatedengineering@gmail.com
  Created 03.30.14
- Last Update 04.01.14
+ Last Update 03.30.14
 
  Notes:  Get the current load average at 1, 5, and 15 minute.  The will function idential to the nagios plugins check_load, which reads from /proc/loadavg.
          The load average is defined as how many processes on average are using the CPU (R status), or waiting for the cpu (D status).  Uptime along with most other utilities read from this file so its trustworthyness is beyond question.
@@ -23,10 +23,10 @@
 
 '''
 
-from datetime import datetime
 import sys
-import argparse
+from datetime import datetime
 import CEng_python_lib as ceng_lib
+import argparse
 
 def main():
 
@@ -45,20 +45,20 @@ def main():
     args = parser.parse_args()
 
     # check for a ctitical state, if so and warning is not set to no, then set critical to warning
-    critical_status_exit_code = min(1 if args.no_alert_on_critical else 2,
-                                    0 if args.no_alert_on_warning and args.no_alert_on_critical else 2)
-    #print "critical: ", critical_status_exit_code
+    if args.no_alert_on_critical:
+      critical_status_exit_code = 1 
+    if args.no_alert_on_warning:
+      critical_status_exit_code = 0 
 
     # check for a warning state, if so and critical is not set to no, then set warning to critical
-    warning_status_exit_code = 0 if args.no_alert_on_warning else 1
-    #print "warning: ", warning_status_exit_code
+    if args.no_alert_on_warning:
+      warning_status_exit_code = 0 
 
     # if unknown is set to no, then set unknown to ok
-    unknown_status_exit_code = 0 if args.no_alert_on_unknown else 3
-    #print "unknown: ", unknown_status_exit_code
-
+    if args.no_alert_on_unknown:
+      unknown_status_exit_code = 0 
+    
     warning_threshold = args.warning_threshold
-
     critical_threshold = args.critical_threshold
 
     # Execution start time
@@ -75,12 +75,8 @@ def main():
     # The script run time
     run_time = datetime.now() - start_time
     
-    if critical_threshold >= one_min_avg or critical_threshold[1] >= five_min_avg or critical_threshold[2] >= fifteen_min_avg:
+    if critical_threshold[0] >= one_min_avg or critical_threshold[1] >= five_min_avg or critical_threshold[2] >= fifteen_min_avg:
         print('The CPU Load Avg has exceeded the critical threshold | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
-             (one_min_avg, warning_threshold[0], critical_threshold[0], five_min_avg, warning_threshold[1], critical_threshold[1], fifteen_min_avg, warning_threshold[2], critical_threshold[2], run_time))
-        sys.exit(critical_status_exit_code)
-    elif warning_threshold[0] >= one_min_avg or warning_threshold[1] >= five_min_avg or warning_threshold[2] >= fifteen_min_avg:
-        print('The CPU Load Avg has exceeded the warning threshold | \'LoadAvg1\'=%s;%s;%s;0; \'LoadAvg5\'=%s;%s;%s;0; \'LoadAvg15\'=%s;%s;%s;0; \'Check_Time\'=%s;;;0.000000;60.000000;' % 
              (one_min_avg, warning_threshold[0], critical_threshold[0], five_min_avg, warning_threshold[1], critical_threshold[1], fifteen_min_avg, warning_threshold[2], critical_threshold[2], run_time))
         sys.exit(critical_status_exit_code)
     elif warning_threshold[0] >= one_min_avg or warning_threshold[1] >= five_min_avg or warning_threshold[2] >= fifteen_min_avg:
