@@ -1,3 +1,5 @@
+[ ![Codeship Status for CaffeinatedEngineering/Monitoring-Plugins](https://codeship.com/projects/da0de410-b199-0132-1c49-3edef27c5b65/status?branch=master)](https://codeship.com/projects/69883)
+
 Overview
 ========
 
